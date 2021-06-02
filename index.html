@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapons</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <main id="app" class="bg-gray-600">
+        <div class="bg-gray-800 text-white p-4 shadow-md mb-6">
+            <h1 class="text-2xl font-bold text-center">Weapons api</h1>
+        </div>
+        <div class="container mx-auto flex flex-wrap gap-10 py-10">
+            <section class="w-full flex justify-center items-center rounded" id="weapon" v-for="weapon in weapons" :key="weapon.id"> 
+                <img id="image" class="w-1/3 h-72 bg-white rounded" :src="`weapons/${weapon.image}`" :alt="weapon.name" />
+                <div class="flex-col space-y-4 ml-5 px-10 w-2/3 py-4 bg-white h-full rounded">
+                    <h4 id="name" class="font-bold">{{ weapon.name }}</h4>
+                    <h5 id="category"> #{{ weapon.category_name }}</h5>
+                    <p id="description">{{ weapon.description }}</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            el: '#app',
+            data: {
+                weapons: [],
+            },
+            async created() {
+                let res = await axios.get('http://localhost/medieval-weapons/api/weapon/read.php');
+                console.log(res.data);
+                this.weapons = res.data;
+            }
+        });
+    </script>
+</body>
+</html>
